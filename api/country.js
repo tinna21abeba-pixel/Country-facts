@@ -18,14 +18,23 @@ export default async function handler(req, res) {
 
   try {
 
+    const API_KEY =
+      process.env.REST_COUNTRIES_API_KEY;
+
+    if (!API_KEY) {
+      return res.status(500).json({
+        error: "REST Countries API key is not configured."
+      });
+    }
+
     /* =========================================
        REST COUNTRIES API URL
     ========================================= */
 
     const url =
-      `https://restcountries.com/v3.1/name/${encodeURIComponent(
+      `https://api.restcountries.com/countries/v5?q=${encodeURIComponent(
         name
-      )}`;
+      )}&api-key=${encodeURIComponent(API_KEY)}`;
 
 
     console.log(
@@ -69,6 +78,14 @@ export default async function handler(req, res) {
           "REST Countries API request failed."
       });
 
+    }
+
+    if (data?.success === false || data?.errors?.length) {
+      return res.status(502).json({
+        error:
+          data?.errors?.[0]?.message ||
+          "REST Countries API request failed."
+      });
     }
 
 

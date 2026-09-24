@@ -155,7 +155,8 @@ async function dataFetching(countryName) {
         throw new Error(`We couldn't find "${cleanName}". Please check the spelling.`);
       }
       if (res.status === 403) {
-        throw new Error("Access forbidden (403). Make sure 'localhost' is allowed in your API key dashboard.");
+        const currentHost = window.location.hostname || "your domain";
+        throw new Error(`Access forbidden (403). Add "${currentHost}" to Allowed Origins in your dashboard at restcountries.com/api-keys.`);
       }
       throw new Error(`Request failed with status ${res.status}`);
     }
