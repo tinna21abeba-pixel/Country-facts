@@ -3,34 +3,149 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Country Facts Explorer</title>
+
+  <title>CountryFacts Explorer</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <main class="card">
-    <header class="card-header">
-      <h1>Country Facts</h1>
-      <p>Explore quick statistics using real-time API data.</p>
-    </header>
-     <button id="theme-toggle" type="button">Dark Mode</button>
 
-    <form id="search-form" class="search-box">
-      <input 
-        type="text" 
-        id="country-input" 
-        placeholder="Enter country name (e.g., Ethiopia)"
-        value="Ethiopia"
-        required
-      >
-      <button type="submit" id="btn">Search</button>
-    </form>
+  <!-- ================= NAVBAR ================= -->
+  <header class="navbar">
 
-   
-    <section id="facts" class="facts-container" aria-live="polite">
+    <div class="logo">
+      <div class="logo-icon">◎</div>
+
+      <div>
+        <h2>Country<span>Facts</span></h2>
+        <p>Explore the world, one country at a time.</p>
+      </div>
+    </div>
+
+    <button id="theme-toggle" class="theme-toggle" type="button">
+      <span id="theme-icon">☾</span>
+      <span id="theme-text">Dark Mode</span>
+
+      <span class="toggle">
+        <span class="toggle-circle"></span>
+      </span>
+    </button>
+
+  </header>
+
+
+  <!-- ================= HERO ================= -->
+  <main>
+
+    <section class="hero">
+
+      <div class="hero-overlay"></div>
+
+      <div class="hero-content">
+
+        <div class="hero-text">
+
+          <p class="small-title">DISCOVER THE WORLD</p>
+
+          <h1>
+            Country Facts
+            <span>Explorer</span>
+          </h1>
+
+          <p class="hero-description">
+            Discover real-time information about countries around the world.
+            Explore population, capital, currency, region and more.
+          </p>
+
+        </div>
+
+
+        <!-- SEARCH -->
+        <form id="search-form" class="search-box">
+
+          <div class="search-icon">
+            ⌕
+          </div>
+
+          <input
+            type="text"
+            id="country-input"
+            placeholder="Enter country name..."
+            value="Ethiopia"
+            autocomplete="off"
+            required
+          >
+
+          <button type="button" id="clear-button" class="clear-button">
+            ×
+          </button>
+
+          <button type="submit" id="btn" class="search-button">
+            <span>⌕</span>
+            Search
+          </button>
+
+        </form>
+
+      </div>
 
     </section>
+
+
+    <!-- ================= COUNTRY RESULT ================= -->
+    <section class="result-section">
+
+      <div id="facts" class="country-card" aria-live="polite">
+
+        <!-- JavaScript will render the country here -->
+
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Loading country information...</p>
+        </div>
+
+      </div>
+
+    </section>
+
   </main>
 
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+
+    <div class="footer-brand">
+      <div class="footer-logo">◎</div>
+
+      <strong>
+        Country<span>Facts</span>
+      </strong>
+    </div>
+
+    <div class="footer-text">
+      Real data&nbsp;&nbsp; • &nbsp;&nbsp;Beautiful design&nbsp;&nbsp; • &nbsp;&nbsp;A more connected world
+    </div>
+
+    <div class="social-links">
+      <a href="#" aria-label="GitHub">GH</a>
+      <a href="#" aria-label="Twitter">X</a>
+      <a href="#" aria-label="LinkedIn">in</a>
+    </div>
+
+  </footer>
+
+
   <script src="app.js"></script>
+
 </body>
 </html>
