@@ -146,22 +146,49 @@ async function dataFetching(countryName) {
   showLoading();
 
   try {
-    const res = await fetch(
-      `https://api.restcountries.com/countries/v5?q=${encodeURIComponent(cleanName)}&api-key=${API_KEY}`
-    );
+    let data;
 
-    if (!res.ok) {
-      if (res.status === 404) {
-        throw new Error(`We couldn't find "${cleanName}". Please check the spelling.`);
+    // Check if running on local development (VS Code Live Server)
+    const isLocalServer =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1" ||
+      window.location.hostname === "" ||
+      window.location.protocol === "file:";
+
+    if (isLocalServer) {
+      // Direct call works locally with Live Server
+      const res = await fetch(
+        `https://api.restcountries.com/countries/v5?q=${encodeURIComponent(cleanName)}&api-key=${API_KEY}`
+      );
+
+      if (!res.ok) {
+        if (res.status === 404) {
+          throw new Error(`We couldn't find "${cleanName}". Please check the spelling.`);
+        }
+        if (res.status === 403) {
+          const currentHost = window.location.hostname || "your domain";
+          throw new Error(`Access forbidden (403). Add "${currentHost}" to Allowed Origins at restcountries.com/api-keys.`);
+        }
+        throw new Error(`Request failed with status ${res.status}`);
       }
-      if (res.status === 403) {
-        const currentHost = window.location.hostname || "your domain";
-        throw new Error(`Access forbidden (403). Add "${currentHost}" to Allowed Origins in your dashboard at restcountries.com/api-keys.`);
+
+      data = await res.json();
+    } else {
+      // On Vercel, use the serverless API proxy (/api/country)
+      // Serverless backend requests have no CORS/origin restrictions!
+      const res = await fetch(`/api/country?name=${encodeURIComponent(cleanName)}`);
+
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        if (res.status === 404) {
+          throw new Error(`We couldn't find "${cleanName}". Please check the spelling.`);
+        }
+        throw new Error(errorData.error || `Request failed with status ${res.status}`);
       }
-      throw new Error(`Request failed with status ${res.status}`);
+
+      data = await res.json();
     }
 
-    const data = await res.json();
     const country = data?.data?.objects?.[0];
 
     if (!country) {

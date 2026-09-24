@@ -19,13 +19,9 @@ export default async function handler(req, res) {
   try {
 
     const API_KEY =
-      process.env.REST_COUNTRIES_API_KEY;
+      process.env.REST_COUNTRIES_API_KEY ||
+      "rc_live_7dd3840ff4004c8abedb2457f49d46de";
 
-    if (!API_KEY) {
-      return res.status(500).json({
-        error: "REST Countries API key is not configured."
-      });
-    }
 
     /* =========================================
        REST COUNTRIES API URL
